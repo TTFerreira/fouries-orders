@@ -11,14 +11,12 @@
 |
 */
 
-Route::group(['prefix' => 'admin', 'middleware' => ['role:-admin', 'web']], function() {
+Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function () {
   Route::auth();
-  Route::get('/', 'HomeController@index');
+  Route::get('/', ['middleware' => ['role:super-admin'], 'uses' => 'AdminController@index']);
 });
 
 Route::group(['middleware' => ['web']], function () {
   Route::auth();
-
   Route::get('/', 'HomeController@index');
-  Route::get('home', 'HomeController@index');
 });

@@ -18,5 +18,8 @@ class AssignRolesTableSeeder extends Seeder
       $admin = Role::where('name', '=', 'super-admin')->first();
       $user->attachRole($admin);
 
+      $user2 = User::where('name', '=', 'John Doe')->first();
+      $customer = Role::where('name', '=', 'customer')->first();
+      $user2->attachRole($customer);
     }
 }
