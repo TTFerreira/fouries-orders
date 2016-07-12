@@ -22,6 +22,36 @@ class AdminTest extends TestCase
 
     $this->actingAs($user)
          ->visit('/admin')
-         ->see('Administrator');
+         ->see('User Management');
+  }
+
+  public function testEditUserView()
+  {
+    $user = User::where('name', '=', 'Terry Ferreira')->get()->first();
+
+    $this->actingAs($user)
+         ->visit('/admin')
+         ->click('Users')
+         ->seePageIs('/admin/users')
+         ->see('Users')
+         ->see('Terry Ferreira')
+         ->see('John Doe');
+  }
+
+  public function testEditExistingUser()
+  {
+    $user = User::where('name', '=', 'Terry Ferreira')->get()->first();
+
+    $this->actingAs($user)
+         ->visit('/admin/users/' . $user->id . '/edit')
+         ->see('Terry Ferreira')
+         ->dontSee('John Doe')
+         ->type('johndoe@pixelcandy.co.za', 'email')
+         ->press('Edit User')
+         ->see('johndoe@pixelcandy.co.za already exists.')
+         ->type('Terry Ferreira 2', 'name')
+         ->press('Edit User')
+         ->seePageIs('admin/users')
+         ->see('Terry Ferreira 2');
   }
 }
