@@ -7,8 +7,9 @@ Route::group(['middleware' => ['auth', 'role:super-admin']], function () {
     'parameters' => 'singular'
   ]);
 
-  Route::resource('/admin/companies', 'CompaniesController', ['only' => [
-    'index', 'store'
-  ]]);
+  Route::resource('/admin/companies', 'CompaniesController', [
+    'only' => ['index', 'edit', 'update', 'store'],
+    'parameters' => 'singular'
+  ]);
 });
 Route::get('/', 'HomeController@index');

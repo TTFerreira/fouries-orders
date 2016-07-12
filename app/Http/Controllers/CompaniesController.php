@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Companies\StoreCompanyRequest;
+use App\Http\Requests\Companies\UpdateCompanyRequest;
 use Illuminate\Http\Request;
 
 use App\Company;
+use Session;
 use App\Http\Requests;
 
 class CompaniesController extends Controller
@@ -26,6 +28,27 @@ class CompaniesController extends Controller
   {
     Company::create($request->all());
 
+    Session::flash('status', 'success');
+    Session::flash('title', 'Company: ' . $request->name);
+    Session::flash('message', 'Successfully created');
+
     return redirect('admin/companies');
+  }
+
+  public function edit(Company $company)
+  {
+    $pageTitle = 'Edit Company - ' . $company->name;
+    return view('admin.companies.edit', compact('pageTitle', 'company'));
+  }
+
+  public function update(UpdateCompanyRequest $request, Company $company)
+  {
+    $company->update($request->all());
+
+    Session::flash('status', 'success');
+    Session::flash('title', 'Company: ' . $request->name);
+    Session::flash('message', 'Successfully updated');
+
+    return redirect('/admin/companies');
   }
 }

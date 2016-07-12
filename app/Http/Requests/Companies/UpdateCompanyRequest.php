@@ -4,7 +4,7 @@ namespace App\Http\Requests\Companies;
 
 use App\Http\Requests\Request;
 
-class StoreCompanyRequest extends Request
+class UpdateCompanyRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,10 @@ class StoreCompanyRequest extends Request
      */
     public function rules()
     {
+      $company = $this->route()->parameter('company');
+
       return [
-        'name' => 'required|unique:companies,name',
+        'name' => 'required|unique:companies,name,'.$company->id,
         'telephone' => 'required',
         'fax' => 'required',
         'vat' => 'required',
