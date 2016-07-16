@@ -14,5 +14,17 @@
         </div>
       </div>
     </div>
+    <div class="col-md-3">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Companies Management</h3>
+        </div>
+        <div class="box-body">
+          <a href="/admin/companies" class="btn btn-app">
+            <i class="fa fa-building"></i> Companies
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 @endsection

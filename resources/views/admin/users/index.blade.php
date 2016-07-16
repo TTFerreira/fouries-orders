@@ -12,20 +12,28 @@
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Email</th>
                 <th>Company</th>
+                <th>Role</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               @foreach($users as $user)
                 <tr>
-                  <div>
-                    <td>{{$user->name}}</td>
-                    <td>{{$user->email}}</td>
-                    <td>{{$user->company->name}}</td>
-                    <td><a href="/admin/users/{{ $user->id }}/edit" class="btn btn-primary"><span class='fa fa-pencil' aria-hidden='true'></span> <b>Edit</b></a></td>
-                  </div>
+                  <td>{{$user->name}}</td>
+                  <td>{{$user->company->name}}</td>
+                  <td>
+                    @foreach($usersRoles as $usersRole)
+                      @if($user->id == $usersRole->user_id)
+                        @foreach($roles as $role)
+                          @if($role->id == $usersRole->role_id)
+                            {{$role->display_name}}
+                          @endif
+                        @endforeach
+                      @endif
+                    @endforeach
+                  </td>
+                  <td><a href="/admin/users/{{ $user->id }}/edit" class="btn btn-primary"><span class='fa fa-pencil' aria-hidden='true'></span> <b>Edit</b></a></td>
                 </tr>
               @endforeach
             </tbody>
@@ -79,7 +87,7 @@
     $(document).ready(function() {
       $('#table').DataTable( {
         columnDefs: [ {
-          orderable: false, targets: 3
+          orderable: false, targets: 2
         } ],
         order: [[ 0, "asc" ]]
       } );

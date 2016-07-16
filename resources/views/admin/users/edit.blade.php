@@ -34,6 +34,23 @@
               </select>
               {{ hasErrorForField($errors, 'company_id') }}
             </div>
+            <div class="form-group {{ hasErrorForClass($errors, 'role_id') }}">
+              <label for="role_id">Role</label>
+              <select class="form-control role_id" name="role_id">
+                @foreach($usersRoles as $usersRole)
+                  @if($user->id == $usersRole->user_id)
+                    @foreach($roles as $role)
+                      <option
+                        @if($role->id == $usersRole->role_id)
+                          selected
+                        @endif
+                        value="{{$role->id}}">{{$role->display_name}}</option>
+                    @endforeach
+                  @endif
+                @endforeach
+              </select>
+              {{ hasErrorForField($errors, 'role_id') }}
+            </div>
 
             <div class="form-group">
               <button type="submit" class="btn btn-primary"><b>Edit User</b></button>
@@ -48,6 +65,7 @@
   <script type="text/javascript">
     $(document).ready(function() {
       $(".company_id").select2();
+      $(".role_id").select2();
     });
   </script>
 @endsection

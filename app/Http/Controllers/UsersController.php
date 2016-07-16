@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 
 use App\User;
 use App\Company;
+use App\Role;
 use Session;
+use DB;
 use App\Http\Requests\Users\StoreUserRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
 
@@ -24,7 +26,9 @@ class UsersController extends Controller
     $pageTitle = 'Users';
     $users = User::all();
     $companies = Company::all();
-    return view('admin.users.index', compact('pageTitle', 'users', 'companies'));
+    $usersRoles = DB::table('role_user')->get();
+    $roles = Role::all();
+    return view('admin.users.index', compact('pageTitle', 'users', 'companies', 'usersRoles', 'roles'));
   }
 
   public function store(StoreUserRequest $request)
@@ -37,6 +41,11 @@ class UsersController extends Controller
 
     $user->save();
 
+    // Assign the 'Customer' role to the new user by default
+    $customer = Role::where('name', '=', 'customer')->first();
+    $user->attachRole($customer);
+
+    // Toastr popup upon successful user creation
     Session::flash('status', 'success');
     Session::flash('title', 'User: ' . $request->name);
     Session::flash('message', 'Successfully created');
@@ -48,7 +57,9 @@ class UsersController extends Controller
   {
     $pageTitle = 'Edit User - ' . $user->name;
     $companies = Company::all();
-    return view('admin.users.edit', compact('pageTitle', 'user', 'companies'));
+    $usersRoles = DB::table('role_user')->get();
+    $roles = Role::all();
+    return view('admin.users.edit', compact('pageTitle', 'user', 'companies', 'usersRoles', 'roles'));
   }
 
   public function update(UpdateUserRequest $request, User $user)
@@ -58,6 +69,12 @@ class UsersController extends Controller
     $user->company_id = $request->company_id;
     $user->update();
 
+    // Update the user's role
+    DB::table('role_user')
+            ->where('user_id', $user->id)
+            ->update(['role_id' => $request->role_id]);
+
+    // Toastr popup upon successful user update
     Session::flash('status', 'success');
     Session::flash('title', 'User: ' . $request->name);
     Session::flash('message', 'Successfully updated');

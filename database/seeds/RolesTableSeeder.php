@@ -12,10 +12,16 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
+      $superAdmin = new Role();
+      $superAdmin->name         = 'super-admin';
+      $superAdmin->display_name = 'Super Administrator';
+      $superAdmin->description  = 'Permission to everything';
+      $superAdmin->save();
+
       $admin = new Role();
-      $admin->name         = 'super-admin';
-      $admin->display_name = 'Super Administrator';
-      $admin->description  = 'Permission to everything';
+      $admin->name         = 'admin';
+      $admin->display_name = 'Administrator';
+      $admin->description  = 'Permission to add/edit users, but not their roles.';
       $admin->save();
 
       $customer = new Role();

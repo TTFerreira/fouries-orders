@@ -29,5 +29,11 @@ class PermissionsTableSeeder extends Seeder
       $createOrder->display_name = 'Create Order';
       $createOrder->description  = 'Create an order';
       $createOrder->save();
+
+      $changeRole = new Permission();
+      $changeRole->name         = 'change-role';
+      $changeRole->display_name = 'Change Role';
+      $changeRole->description  = 'Change a user\'s role';
+      $changeRole->save();
     }
 }
