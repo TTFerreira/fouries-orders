@@ -53,13 +53,20 @@
             </div>
 
             <div class="form-group">
-              <button type="submit" class="btn btn-primary"><b>Edit User</b></button>
+              <button type="submit" class="btn btn-primary"><span class='fa fa-pencil' aria-hidden='true'></span> <b>Edit User</b></button>
             </div>
           </form>
         </div>
       </div>
     </div>
   </div>
+  @if(Session::has('status'))
+    <script>
+      $(document).ready(function() {
+        Command: toastr["{{Session::get('status')}}"]("{{Session::get('message')}}", "{{Session::get('title')}}");
+      });
+    </script>
+  @endif
 @endsection
 @section('footer')
   <script type="text/javascript">

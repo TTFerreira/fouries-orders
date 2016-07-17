@@ -69,15 +69,46 @@ class UsersController extends Controller
     $user->company_id = $request->company_id;
     $user->update();
 
-    // Update the user's role
-    DB::table('role_user')
-            ->where('user_id', $user->id)
-            ->update(['role_id' => $request->role_id]);
+    // If only one user is a Super Admin, don't allow the Super Admin to change role
+    $usersRole = DB::table('role_user')
+                          ->where('user_id', $user->id)
+                          ->first();
+    $superAdminRole = Role::where('name', '=', 'super-admin')->first();
+    $superAdminCount = DB::table('role_user')
+                                ->where('role_id', $superAdminRole->id)
+                                ->count();
 
-    // Toastr popup upon successful user update
-    Session::flash('status', 'success');
-    Session::flash('title', 'User: ' . $request->name);
-    Session::flash('message', 'Successfully updated');
+    // Check if the user being edited, is not already a Super Admin
+    if ($usersRole->role_id == $superAdminRole->id && $usersRole->role_id != $request->role_id) {
+      if ($superAdminCount == 1) {
+        // Toastr popup
+        Session::flash('status', 'warning');
+        Session::flash('title', 'User: ' . $request->name);
+        Session::flash('message', 'Cannot change role as there must be one (1) or more users with the role of ' . $superAdminRole->display_name . '.');
+
+        return redirect('/admin/users/' . $user->id . '/edit');
+      } else {
+        // Update the user's role
+        DB::table('role_user')
+                ->where('user_id', $user->id)
+                ->update(['role_id' => $request->role_id]);
+
+        // Toastr popup upon successful user update
+        Session::flash('status', 'success');
+        Session::flash('title', 'User: ' . $request->name);
+        Session::flash('message', 'Successfully updated');
+      }
+    } else {
+      // Update the user's role
+      DB::table('role_user')
+              ->where('user_id', $user->id)
+              ->update(['role_id' => $request->role_id]);
+
+      // Toastr popup upon successful user update
+      Session::flash('status', 'success');
+      Session::flash('title', 'User: ' . $request->name);
+      Session::flash('message', 'Successfully updated');
+    }
 
     return redirect('/admin/users');
   }

@@ -76,7 +76,7 @@
             </div>
 
             <div class="form-group">
-              <button type="submit" class="btn btn-primary"><b>Add New User</b></button>
+              <button type="submit" class="btn btn-primary"><span class='fa fa-user-plus' aria-hidden='true'></span> <b>Add New User</b></button>
             </div>
           </form>
         </div>
