@@ -15,11 +15,15 @@ class AssignRolesTableSeeder extends Seeder
     public function run()
     {
       $user = User::where('name', '=', 'Terry Ferreira')->first();
-      $admin = Role::where('name', '=', 'super-admin')->first();
-      $user->attachRole($admin);
+      $superAdmin = Role::where('name', '=', 'super-admin')->first();
+      $user->attachRole($superAdmin);
 
       $user2 = User::where('name', '=', 'John Doe')->first();
       $customer = Role::where('name', '=', 'customer')->first();
       $user2->attachRole($customer);
+
+      $user3 = User::where('name', '=', 'Jane Doe')->first();
+      $admin = Role::where('name', '=', 'admin')->first();
+      $user3->attachRole($admin);
     }
 }

@@ -57,13 +57,54 @@ class UserTest extends TestCase
     $this->actingAs($user)
          ->visit('/admin/users/' . $user->id . '/edit')
          ->seePageIs('/admin/users/' . $user->id . '/edit')
-         ->type('Jane Doe', 'name')
-         ->type('janedoe@pixelcandy.co.za', 'email')
+         ->type('James Doe', 'name')
+         ->type('jamesdoe@pixelcandy.co.za', 'email')
          ->select(4, 'company_id')
          ->press('Edit User')
          ->seePageIs('/admin/users')
-         ->see('User: Jane Doe')
+         ->see('User: James Doe')
          ->see('Successfully updated')
-         ->seeInDatabase('users', ['name' => 'Jane Doe', 'email' => 'janedoe@pixelcandy.co.za', 'company_id' => 4]);
+         ->seeInDatabase('users', ['name' => 'James Doe', 'email' => 'jamesdoe@pixelcandy.co.za', 'company_id' => 4]);
+  }
+
+  public function testAdminCannotChangeUserRole()
+  {
+    $user = User::where('name', '=', 'Jane Doe')->get()->first();
+
+    $this->actingAs($user)
+         ->visit('/admin/users/' . $user->id . '/edit')
+         ->seePageIs('/admin/users/' . $user->id . '/edit')
+         ->see('Jane Doe')
+         ->dontSee('User\'s Role');
+  }
+
+  public function testSuperAdminCanChangeUserRole()
+  {
+    $user = User::where('name', '=', 'Terry Ferreira')->get()->first();
+    $user2 = User::where('name', '=', 'John Doe')->get()->first();
+
+    $this->actingAs($user)
+         ->visit('/admin/users/' . $user2->id . '/edit')
+         ->seePageIs('/admin/users/' . $user2->id . '/edit')
+         ->see('John Doe')
+         ->select(2, 'role_id')
+         ->press('Edit User')
+         ->seePageIs('/admin/users')
+         ->see('Successfully updated')
+         ->seeInDatabase('role_user', ['user_id' => $user2->id, 'role_id' => 2]);
+  }
+
+  public function testCannotChangeRoleIfOnlyOneSuperAdmin()
+  {
+    $user = User::where('name', '=', 'Terry Ferreira')->get()->first();
+
+    $this->actingAs($user)
+         ->visit('/admin/users/' . $user->id . '/edit')
+         ->seePageIs('/admin/users/' . $user->id . '/edit')
+         ->select(2, 'role_id')
+         ->press('Edit User')
+         ->seePageIs('/admin/users/' . $user->id . '/edit')
+         ->see('Cannot change role')
+         ->seeInDatabase('role_user', ['user_id' => $user->id, 'role_id' => 1]);
   }
 }

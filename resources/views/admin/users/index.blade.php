@@ -13,7 +13,7 @@
               <tr>
                 <th>Name</th>
                 <th>Company</th>
-                <th>Role</th>
+                <th>User's Role</th>
                 <th>Actions</th>
               </tr>
             </thead>

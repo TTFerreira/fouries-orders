@@ -1,7 +1,8 @@
 <?php
 
 Route::auth();
-Route::group(['middleware' => ['auth', 'role:super-admin']], function () {
+
+Route::group(['middleware' => ['auth', 'role:super-admin|admin']], function () {
   // Admin Page
   route::resource('/admin', 'AdminController', [
     'only' => ['index']
@@ -18,5 +19,20 @@ Route::group(['middleware' => ['auth', 'role:super-admin']], function () {
     'only' => ['index', 'edit', 'update', 'store'],
     'parameters' => 'singular'
   ]);
+
+  // Items
+  Route::resource('/admin/items', 'ItemsController', [
+    'only' => ['index', 'edit', 'update', 'store'],
+    'parameters' => 'singular'
+  ]);
 });
+
+Route::group(['middleware' => ['auth', 'role:admin|super-admin|customer']], function () {
+  // Orders
+  Route::resource('/orders', 'OrdersController', [
+    'only' => ['index', 'create', 'show', 'edit', 'update', 'store'],
+    'parameters' => 'singular'
+  ]);
+});
+
 Route::get('/', 'HomeController@index');

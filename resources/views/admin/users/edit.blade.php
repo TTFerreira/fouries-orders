@@ -34,23 +34,25 @@
               </select>
               {{ hasErrorForField($errors, 'company_id') }}
             </div>
-            <div class="form-group {{ hasErrorForClass($errors, 'role_id') }}">
-              <label for="role_id">Role</label>
-              <select class="form-control role_id" name="role_id">
-                @foreach($usersRoles as $usersRole)
-                  @if($user->id == $usersRole->user_id)
-                    @foreach($roles as $role)
-                      <option
-                        @if($role->id == $usersRole->role_id)
-                          selected
-                        @endif
-                        value="{{$role->id}}">{{$role->display_name}}</option>
-                    @endforeach
-                  @endif
-                @endforeach
-              </select>
-              {{ hasErrorForField($errors, 'role_id') }}
-            </div>
+            @permission('change-role')
+              <div class="form-group {{ hasErrorForClass($errors, 'role_id') }}">
+                <label for="role_id">User's Role</label>
+                <select class="form-control role_id" name="role_id">
+                  @foreach($usersRoles as $usersRole)
+                    @if($user->id == $usersRole->user_id)
+                      @foreach($roles as $role)
+                        <option
+                          @if($role->id == $usersRole->role_id)
+                            selected
+                          @endif
+                          value="{{$role->id}}">{{$role->display_name}}</option>
+                      @endforeach
+                    @endif
+                  @endforeach
+                </select>
+                {{ hasErrorForField($errors, 'role_id') }}
+              </div>
+            @endpermission
 
             <div class="form-group">
               <button type="submit" class="btn btn-primary"><span class='fa fa-pencil' aria-hidden='true'></span> <b>Edit User</b></button>
