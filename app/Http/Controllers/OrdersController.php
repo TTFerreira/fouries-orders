@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Session;
 use App\User;
 use App\Order;
+use App\Item;
+use App\ItemCategory;
 
 use App\Http\Requests;
 
@@ -35,7 +37,10 @@ class OrdersController extends Controller
    */
   public function create()
   {
-    
+    $pageTitle = 'Create Order';
+    $itemCategories = ItemCategory::all();
+    $items = Item::all();
+    return view('orders.create', compact('pageTitle', 'itemCategories', 'items'));
   }
 
   /**

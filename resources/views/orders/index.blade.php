@@ -12,6 +12,7 @@
             <thead>
               <tr>
                 <th>Order Number</th>
+                <th>Company</th>
                 <th>Status</th>
                 <th>Status Date</th>
                 <th>Actions</th>
@@ -21,9 +22,10 @@
               @foreach($orders as $order)
                 <tr>
                   <td>{{$order->id}}</td>
-                  <td>{{$order->update->status}}</td>
-                  <td>{{$order->update->updated_at}}</td>
-                  <td><a href="/admin/users/{{ $user->id }}/edit" class="btn btn-primary"><span class='fa fa-pencil' aria-hidden='true'></span> <b>Edit</b></a></td>
+                  <td>{{$order->user->company->name}}</td>
+                  <td>{{$order->orderupdate->status->status}}</td>
+                  <td>{{$order->orderupdate->updated_at}}</td>
+                  <td><a href="/orders/{{ $order->id }}/edit" class="btn btn-primary"><span class='fa fa-pencil' aria-hidden='true'></span> <b>Edit</b></a></td>
                 </tr>
               @endforeach
             </tbody>
@@ -36,7 +38,7 @@
     $(document).ready(function() {
       $('#table').DataTable( {
         columnDefs: [ {
-          orderable: false, targets: 2
+          orderable: false, targets: 3
         } ],
         order: [[ 0, "asc" ]]
       } );

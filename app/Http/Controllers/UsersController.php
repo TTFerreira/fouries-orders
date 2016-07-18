@@ -90,8 +90,8 @@ class UsersController extends Controller
       } else {
         // Update the user's role
         DB::table('role_user')
-                ->where('user_id', $user->id)
-                ->update(['role_id' => $request->role_id]);
+                 ->where('user_id', $user->id)
+                 ->update(['role_id' => $request->role_id]);
 
         // Toastr popup upon successful user update
         Session::flash('status', 'success');
@@ -101,8 +101,8 @@ class UsersController extends Controller
     } else {
       // Update the user's role
       DB::table('role_user')
-              ->where('user_id', $user->id)
-              ->update(['role_id' => $request->role_id]);
+               ->where('user_id', $user->id)
+               ->update(['role_id' => $request->role_id]);
 
       // Toastr popup upon successful user update
       Session::flash('status', 'success');

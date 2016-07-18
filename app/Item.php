@@ -12,4 +12,9 @@ class Item extends Model
   {
     return $this->belongsTo(OrderItem::class);
   }
+
+  public function itemCategory()
+  {
+    return $this->belongsTo(ItemCategory::class);
+  }
 }
