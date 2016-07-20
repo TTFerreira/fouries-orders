@@ -22,11 +22,6 @@ class OrdersController extends Controller
     $this->middleware('auth');
   }
 
-  /**
-   * Display a listing of the resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
   public function index()
   {
     $pageTitle = 'Orders';
@@ -34,11 +29,6 @@ class OrdersController extends Controller
     return view('orders.index', compact('pageTitle', 'orders'));
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
   public function create()
   {
     $pageTitle = 'Create Order';
@@ -47,12 +37,6 @@ class OrdersController extends Controller
     return view('orders.create', compact('pageTitle', 'itemCategories', 'items'));
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
   public function store(Request $request)
   {
     // Get the authenticated user
@@ -91,40 +75,41 @@ class OrdersController extends Controller
     $order->orderupdate_id = $orderupdate->id;
     $order->update();
 
+    // toastr notification
+    Session::flash('status', 'success');
+    Session::flash('title', 'Order: ' . $order->id . ' for ' . $user->company->name);
+    Session::flash('message', 'Successfully created');
+
     return redirect('orders');
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
   public function show(Order $order)
   {
-      //
+    $pageTitle = 'Order: ' . $order->id;
+    $orderItems = OrderItem::where('order_id', $order->id)->get();
+    $statuses = Status::orderBy('id', 'asc')->get();
+    return view('orders.show', compact('pageTitle', 'order', 'orderItems', 'statuses'));
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function edit(Order $order)
+  public function update(Request $request, Order $order)
   {
-      //
-  }
+    // Get the authenticated user
+    $user = Auth::user();
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  // public function update(Request $request, Order $order)
-  // {
-  //     //
-  // }
+    $orderupdate = new Orderupdate();
+    $orderupdate->order_id = $order->id;
+    $orderupdate->status_id = $request->status;
+    $orderupdate->user_id = $user->id;
+    $orderupdate->save();
+
+    $order->orderupdate_id = $orderupdate->id;
+    $order->update();
+
+    // toastr notification
+    Session::flash('status', 'success');
+    Session::flash('title', 'Order: ' . $order->id . ' for ' . $user->company->name);
+    Session::flash('message', 'Status changed to: ' . $orderupdate->status->status);
+
+    return redirect('orders');
+  }
 }

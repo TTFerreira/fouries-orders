@@ -22,7 +22,7 @@
                   <div>
                     <td>{{$item->item_code}}</td>
                     <td>{{$item->description}}</td>
-                    <td><a href="/admin/items/{{ $item->id }}/edit" class="btn btn-primary"><span class='fa fa-pencil' aria-hidden='true'></span> <b>Edit</b></a></td>
+                    <td><a href="/admin/items/{{ $item->id }}/edit" class="btn btn-primary"><span class='fa fa-edit' aria-hidden='true'></span> <b>Edit</b></a></td>
                   </div>
                 </tr>
               @endforeach

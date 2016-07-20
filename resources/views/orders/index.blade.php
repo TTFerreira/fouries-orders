@@ -8,14 +8,15 @@
           <h3 class="box-title">{{$pageTitle}}</h3>
         </div>
         <div class="box-body">
+          <p><a href="/orders/create" class="btn btn-primary"><span class='fa fa-cart-plus' aria-hidden='true'></span> <b>Create Order</b></a></p>
           <table id="table" class="table table-striped table-bordered table-hover">
             <thead>
               <tr>
                 <th>Order Number</th>
                 <th>Company</th>
                 <th>Status</th>
-                <th>Status User</th>
-                <th>Status Date</th>
+                <th>Last Updated By</th>
+                <th>Update Date</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -27,7 +28,7 @@
                   <td>{{$order->orderupdate->status->status}}</td>
                   <td>{{$order->orderupdate->user->name}} - {{$order->orderupdate->user->company->name}}</td>
                   <td>{{$order->orderupdate->updated_at}}</td>
-                  <td><a href="/orders/{{ $order->id }}/edit" class="btn btn-primary"><span class='fa fa-pencil' aria-hidden='true'></span> <b>Edit</b></a></td>
+                  <td><a href="/orders/{{ $order->id }}" class="btn btn-primary"><span class='fa fa-file-text' aria-hidden='true'></span> <b>View Order</b></a></td>
                 </tr>
               @endforeach
             </tbody>
@@ -40,9 +41,9 @@
     $(document).ready(function() {
       $('#table').DataTable( {
         columnDefs: [ {
-          orderable: false, targets: 4
+          orderable: false, targets: 5
         } ],
-        order: [[ 0, "asc" ]]
+        order: [[ 0, "desc" ]]
       } );
     } );
   </script>

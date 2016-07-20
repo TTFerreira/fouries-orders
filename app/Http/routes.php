@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin']], function () {
 Route::group(['middleware' => ['auth', 'role:admin|super-admin|customer']], function () {
   // Orders
   Route::resource('/orders', 'OrdersController', [
-    'only' => ['index', 'create', 'show', 'edit', 'update', 'store'],
+    'only' => ['index', 'create', 'show', 'store', 'update'],
     'parameters' => 'singular'
   ]);
 });

@@ -12,7 +12,7 @@
             {{csrf_field()}}
             @foreach($itemCategories as $itemCategory)
               <div class="row">
-                <h2 class="col-md-12">{{$itemCategory->category}}</h2>
+                <h4 class="col-md-12">{{$itemCategory->category}}</h4>
                 @foreach($items as $item)
                   @if($item->item_category_id == $itemCategory->id)
                     <div class="col-md-2">
@@ -25,6 +25,7 @@
                   @endif
                 @endforeach
               </div>
+              <hr>
             @endforeach
 
 
