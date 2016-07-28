@@ -64,10 +64,20 @@ class UsersController extends Controller
 
   public function update(UpdateUserRequest $request, User $user)
   {
-    $user->name = $request->name;
-    $user->email = $request->email;
-    $user->company_id = $request->company_id;
-    $user->update();
+    if ($request->password != '' && $request->password_confirmation != '') {
+      if ($request->password === $request->password_confirmation) {
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->company_id = $request->company_id;
+        $user->password = bcrypt($request->password);
+        $user->update();
+      }
+    } else {
+      $user->name = $request->name;
+      $user->email = $request->email;
+      $user->company_id = $request->company_id;
+      $user->update();
+    }
 
     // If only one user is a Super Admin, don't allow the Super Admin to change role
     $usersRole = DB::table('role_user')

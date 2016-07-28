@@ -13,25 +13,22 @@ class AddPermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-      // Super Administrator
-      $superAdmin = Role::where('name', '=', 'super-admin')->first();
+      // Permissions
       $createUser = Permission::where('name', '=', 'create-user')->first();
       $editUser = Permission::where('name', '=', 'edit-user')->first();
       $changeRole = Permission::where('name', '=', 'change-role')->first();
+      $createOrder = Permission::where('name', '=', 'create-order')->first();
 
+      // Super Administrator
+      $superAdmin = Role::where('name', '=', 'super-admin')->first();
       $superAdmin->attachPermissions(array($createUser, $editUser, $changeRole));
 
       // Administrator
       $admin = Role::where('name', '=', 'admin')->first();
-      $createUser = Permission::where('name', '=', 'create-user')->first();
-      $editUser = Permission::where('name', '=', 'edit-user')->first();
-
       $admin->attachPermissions(array($createUser, $editUser));
 
       // Customer
       $customer = Role::where('name', '=', 'customer')->first();
-      $createOrder = Permission::where('name', '=', 'create-order')->first();
-
       $customer->attachPermissions(array($createOrder));
 
     }

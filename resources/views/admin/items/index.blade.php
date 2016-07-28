@@ -44,6 +44,16 @@
               <input type="text" name="item_code" class="form-control" value="{{old('item_code')}}">
               {{ hasErrorForField($errors, 'item_code') }}
             </div>
+            <div class="form-group {{ hasErrorForClass($errors, 'item_category_id') }}">
+              <label for="item_category_id">Company</label>
+              <select class="form-control company_id" name="item_category_id">
+                <option value = ""></option>
+                @foreach($categories as $category)
+                    <option value="{{$category->id}}">{{$category->category}}</option>
+                @endforeach
+              </select>
+              {{ hasErrorForField($errors, 'item_category_id') }}
+            </div>
             <div class="form-group {{ hasErrorForClass($errors, 'description') }}">
               <label for="description">Description</label>
               <input type="text" name="description" class="form-control" value="{{old('description')}}">
@@ -75,4 +85,11 @@
       });
     </script>
   @endif
+@endsection
+@section('footer')
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".item_category_id").select2();
+    });
+  </script>
 @endsection

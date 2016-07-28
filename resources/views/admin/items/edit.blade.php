@@ -21,6 +21,19 @@
               <input type="text" name="description" class="form-control" value="{{$item->description}}">
               {{ hasErrorForField($errors, 'description') }}
             </div>
+            <div class="form-group {{ hasErrorForClass($errors, 'item_category_id') }}">
+              <label for="item_category_id">Company</label>
+              <select class="form-control item_category_id" name="item_category_id">
+                @foreach($categories as $category)
+                  <option
+                    @if($item->item_category_id == $category->id)
+                      selected
+                    @endif
+                  value="{{$category->id}}">{{$category->category}}</option>
+                @endforeach
+              </select>
+              {{ hasErrorForField($errors, 'item_category_id') }}
+            </div>
 
             <div class="form-group">
               <button type="submit" class="btn btn-primary"><b>Edit Item</b></button>
@@ -30,4 +43,11 @@
       </div>
     </div>
   </div>
+@endsection
+@section('footer')
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".item_category_id").select2();
+    });
+  </script>
 @endsection

@@ -12,6 +12,7 @@ use App\Item;
 use App\ItemCategory;
 use App\Status;
 use Auth;
+use DB;
 
 use App\Http\Requests;
 
@@ -25,7 +26,17 @@ class OrdersController extends Controller
   public function index()
   {
     $pageTitle = 'Orders';
-    $orders = Order::all();
+    // Get the authenticated user
+    $user = Auth::user();
+    if ($user->hasRole(['super-admin', 'admin'])) {
+      $orders = Order::all();
+    } elseif ($user->hasRole('customer')) {
+      // Get all users from this user's company
+      $users = User::where('company_id', $user->company_id)->pluck('id');
+      // Get all orders from this user's company
+      $orders = Order::whereIn('user_id', $users)->get();
+    }
+
     return view('orders.index', compact('pageTitle', 'orders'));
   }
 
@@ -86,9 +97,29 @@ class OrdersController extends Controller
   public function show(Order $order)
   {
     $pageTitle = 'Order: ' . $order->id;
-    $orderItems = OrderItem::where('order_id', $order->id)->get();
-    $statuses = Status::orderBy('id', 'asc')->get();
-    return view('orders.show', compact('pageTitle', 'order', 'orderItems', 'statuses'));
+    // Get Authenticated User
+    $user = Auth::user();
+    if ($user->hasRole(['super-admin', 'admin'])) {
+      $orderItems = OrderItem::where('order_id', $order->id)->get();
+      $statuses = Status::orderBy('id', 'asc')->get();
+      return view('orders.show', compact('pageTitle', 'order', 'orderItems', 'statuses'));
+    } elseif ($user->hasRole('customer')) {
+      // Get all users from this user's company
+      $users = User::where('company_id', $user->company_id)->pluck('id');
+      // Get all orders from this user's company
+      $orders = Order::whereIn('user_id', $users)->pluck('id');
+      // Check if authenticated user belongs to this order's company
+      foreach ($orders as $thisOrder) {
+        if ($thisOrder == $order->id) {
+          $orderItems = OrderItem::where('order_id', $order->id)->get();
+          $statuses = Status::orderBy('id', 'asc')->get();
+          return view('orders.show', compact('pageTitle', 'order', 'orderItems', 'statuses'));
+        }
+      }
+      // Throw a 403 ErrorException if it reaches this, as the user does not belong to the company of this order
+      abort(403);
+    }
+
   }
 
   public function update(Request $request, Order $order)

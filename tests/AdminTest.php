@@ -16,42 +16,42 @@ class AdminTest extends TestCase
          ->seePageIs('/login');
   }
 
-  public function testAdminViewWithAdminUser()
+  public function testAdminViewWithSuperAdminUser()
   {
-    $user = User::where('name', '=', 'Terry Ferreira')->get()->first();
+    $user = User::where('name', '=', 'Super Admin User')->get()->first();
 
     $this->actingAs($user)
          ->visit('/admin')
          ->see('User Management');
   }
 
-  public function testEditUserView()
+  public function testSuperAdminCanViewEditUserView()
   {
-    $user = User::where('name', '=', 'Terry Ferreira')->get()->first();
+    $user = User::where('name', '=', 'Super Admin User')->get()->first();
 
     $this->actingAs($user)
          ->visit('/admin')
          ->click('Users')
          ->seePageIs('/admin/users')
          ->see('Users')
-         ->see('Terry Ferreira')
-         ->see('John Doe');
+         ->see('Super Admin User')
+         ->see('Customer User');
   }
 
-  public function testEditExistingUser()
+  public function testSuperAdminCanEditExistingUser()
   {
-    $user = User::where('name', '=', 'Terry Ferreira')->get()->first();
+    $user = User::where('name', '=', 'Super Admin User')->get()->first();
 
     $this->actingAs($user)
          ->visit('/admin/users/' . $user->id . '/edit')
-         ->see('Terry Ferreira')
-         ->dontSee('John Doe')
-         ->type('johndoe@pixelcandy.co.za', 'email')
+         ->see('Super Admin User')
+         ->dontSee('Customer User')
+         ->type('customeruser@terryferreira.com', 'email')
          ->press('Edit User')
-         ->see('johndoe@pixelcandy.co.za already exists.')
-         ->type('Terry Ferreira 2', 'name')
+         ->see('customeruser@terryferreira.com already exists.')
+         ->type('Super Admin User 2', 'name')
          ->press('Edit User')
          ->seePageIs('admin/users')
-         ->see('Terry Ferreira 2');
+         ->see('Super Admin User 2');
   }
 }

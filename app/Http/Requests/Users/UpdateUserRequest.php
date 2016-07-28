@@ -28,7 +28,9 @@ class UpdateUserRequest extends Request
       return [
         'name' => 'required|unique:users,name,'.$user->id,
         'email' => 'email|required|unique:users,email,'.$user->id,
-        'company_id' => 'required'
+        'company_id' => 'required',
+        'password' => 'confirmed|min:6',
+        'password_confirmation' => 'min:6'
       ];
     }
 
@@ -45,7 +47,10 @@ class UpdateUserRequest extends Request
         'email.email' => 'Please enter a valid email address.',
         'email.required' => 'You must enter the User\'s Email Address.',
         'email.unique' => $this->email . ' already exists. You must enter a unique email address.',
-        'company_id.required' => 'You must select the User\'s Company.'
+        'company_id.required' => 'You must select the User\'s Company.',
+        'password.confirmed' => 'The passwords do not match.',
+        'password.min' => 'The password must be a minimum of six (6) characters.',
+        'password_confirmation.min' => 'The password must be a minimum of six (6) characters.',
       ];
     }
 }

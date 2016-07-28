@@ -7,6 +7,7 @@ use App\Http\Requests\Items\UpdateItemRequest;
 use Illuminate\Http\Request;
 use Session;
 use App\Item;
+use App\ItemCategory;
 
 use App\Http\Requests;
 
@@ -21,7 +22,8 @@ class ItemsController extends Controller
   {
     $pageTitle = 'Items';
     $items = Item::all();
-    return view('admin.items.index', compact('pageTitle', 'items'));
+    $categories = ItemCategory::all();
+    return view('admin.items.index', compact('pageTitle', 'items', 'categories'));
   }
 
   public function store(StoreItemRequest $request)
@@ -38,7 +40,8 @@ class ItemsController extends Controller
   public function edit(Item $item)
   {
     $pageTitle = 'Edit Item - ' . $item->item_code . ' - ' . $item->description;
-    return view('admin.items.edit', compact('pageTitle', 'item'));
+    $categories = ItemCategory::all();
+    return view('admin.items.edit', compact('pageTitle', 'item', 'categories'));
   }
 
   public function update(UpdateItemRequest $request, Item $item)

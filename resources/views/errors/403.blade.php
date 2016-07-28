@@ -19,7 +19,8 @@
         <h3><i class="fa fa-warning text-yellow"></i> Oops! Insufficient Permissions.</h3>
         <p>
             You do not have the required permission to view this page.
-        </p
+        </p>
+        <a class="btn btn-primary" href="{{ URL::previous() }}"><b>Back</b></a>
     </div><!-- /.error-content -->
 </div><!-- /.error-page -->
 @endsection

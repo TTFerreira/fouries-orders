@@ -27,6 +27,7 @@ class UpdateItemRequest extends Request
 
       return [
         'item_code' => 'required|unique:items,item_code,'.$item->id,
+        'item_category_id' => 'required',
         'description' => 'required',
       ];
     }
@@ -41,6 +42,7 @@ class UpdateItemRequest extends Request
       return [
         'item_code.required' => 'You must enter a Code.',
         'item_code.unique' => $this->item_code . ' already exists. You must enter a unique Code.',
+        'item_category_id.required' => 'You must select a Category.',
         'description.required' => 'You must enter a description.'
       ];
     }

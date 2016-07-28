@@ -10,9 +10,19 @@ class UserTest extends TestCase
 {
   use DatabaseTransactions;
 
+  public function testSuperAdminCanSeeAdminView()
+  {
+    $user = User::where('name', '=', 'Super Admin User')->get()->first();
+
+    $this->actingAs($user)
+         ->visit('/admin')
+         ->seePageIs('/admin')
+         ->see('User Management');
+  }
+
   public function testAdminCanSeeAdminView()
   {
-    $user = User::where('name', '=', 'Terry Ferreira')->get()->first();
+    $user = User::where('name', '=', 'Admin User')->get()->first();
 
     $this->actingAs($user)
          ->visit('/admin')
@@ -22,7 +32,7 @@ class UserTest extends TestCase
 
   public function testCustomerCannotSeeAdminViewOrMenuItem()
   {
-    $user = User::where('name', '=', 'John Doe')->get()->first();
+    $user = User::where('name', '=', 'Customer User')->get()->first();
 
     $this->actingAs($user)
          ->get('/admin')
@@ -32,9 +42,9 @@ class UserTest extends TestCase
          ->dontSee('Administrator');
   }
 
-  public function testCreateNewUser()
+  public function testSuperAdminCanCreateNewUser()
   {
-    $user = User::where('name', '=', 'Terry Ferreira')->get()->first();
+    $user = User::where('name', '=', 'Super Admin User')->get()->first();
 
     $this->actingAs($user)
          ->visit('/admin/users')
@@ -50,43 +60,43 @@ class UserTest extends TestCase
          ->seeInDatabase('users', ['name' => 'Random Name', 'email' => 'random@pixelcandy.co.za', 'company_id' => 3]);
   }
 
-  public function testEditUser()
+  public function testSuperAdminCanEditUser()
   {
-    $user = User::where('name', '=', 'Terry Ferreira')->get()->first();
+    $user = User::where('name', '=', 'Super Admin User')->get()->first();
 
     $this->actingAs($user)
          ->visit('/admin/users/' . $user->id . '/edit')
          ->seePageIs('/admin/users/' . $user->id . '/edit')
          ->type('James Doe', 'name')
-         ->type('jamesdoe@pixelcandy.co.za', 'email')
+         ->type('jamesdoe@terryferreira.com', 'email')
          ->select(4, 'company_id')
          ->press('Edit User')
          ->seePageIs('/admin/users')
          ->see('User: James Doe')
          ->see('Successfully updated')
-         ->seeInDatabase('users', ['name' => 'James Doe', 'email' => 'jamesdoe@pixelcandy.co.za', 'company_id' => 4]);
+         ->seeInDatabase('users', ['name' => 'James Doe', 'email' => 'jamesdoe@terryferreira.com', 'company_id' => 4]);
   }
 
   public function testAdminCannotChangeUserRole()
   {
-    $user = User::where('name', '=', 'Jane Doe')->get()->first();
+    $user = User::where('name', '=', 'Admin User')->get()->first();
 
     $this->actingAs($user)
          ->visit('/admin/users/' . $user->id . '/edit')
          ->seePageIs('/admin/users/' . $user->id . '/edit')
-         ->see('Jane Doe')
+         ->see('Admin User')
          ->dontSee('User\'s Role');
   }
 
   public function testSuperAdminCanChangeUserRole()
   {
-    $user = User::where('name', '=', 'Terry Ferreira')->get()->first();
-    $user2 = User::where('name', '=', 'John Doe')->get()->first();
+    $user = User::where('name', '=', 'Super Admin User')->get()->first();
+    $user2 = User::where('name', '=', 'Customer User')->get()->first();
 
     $this->actingAs($user)
          ->visit('/admin/users/' . $user2->id . '/edit')
          ->seePageIs('/admin/users/' . $user2->id . '/edit')
-         ->see('John Doe')
+         ->see('Customer User')
          ->select(2, 'role_id')
          ->press('Edit User')
          ->seePageIs('/admin/users')
@@ -96,7 +106,7 @@ class UserTest extends TestCase
 
   public function testCannotChangeRoleIfOnlyOneSuperAdmin()
   {
-    $user = User::where('name', '=', 'Terry Ferreira')->get()->first();
+    $user = User::where('name', '=', 'Super Admin User')->get()->first();
 
     $this->actingAs($user)
          ->visit('/admin/users/' . $user->id . '/edit')

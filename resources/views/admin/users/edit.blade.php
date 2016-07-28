@@ -34,6 +34,16 @@
               </select>
               {{ hasErrorForField($errors, 'company_id') }}
             </div>
+            <div class="form-group {{ hasErrorForClass($errors, 'password') }}">
+              <label for="password">Password</label>
+              <input type="password" name="password" class="form-control">
+              {{ hasErrorForField($errors, 'password') }}
+            </div>
+            <div class="form-group {{ hasErrorForClass($errors, 'password_confirmation') }}">
+              <label for="password_confirmation">Password</label>
+              <input type="password" name="password_confirmation" class="form-control">
+              {{ hasErrorForField($errors, 'password_confirmation') }}
+            </div>
             @permission('change-role')
               <div class="form-group {{ hasErrorForClass($errors, 'role_id') }}">
                 <label for="role_id">User's Role</label>

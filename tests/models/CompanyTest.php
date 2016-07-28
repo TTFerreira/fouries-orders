@@ -13,16 +13,16 @@ class CompanyTest extends TestCase
 
     public function testCustomerCannotSeeCompaniesView()
     {
-      $user = User::where('name', '=', 'John Doe')->get()->first();
+      $user = User::where('name', '=', 'Customer User')->get()->first();
 
       $this->actingAs($user)
            ->get('/admin/companies')
            ->assertResponseStatus('403');
     }
 
-    public function testAdminCanSeeCompaniesView()
+    public function testSuperAdminCanSeeCompaniesView()
     {
-      $user = User::where('name', '=', 'Terry Ferreira')->get()->first();
+      $user = User::where('name', '=', 'Super Admin User')->get()->first();
 
       $this->actingAs($user)
            ->visit('/admin/companies')
@@ -30,9 +30,9 @@ class CompanyTest extends TestCase
            ->see('Companies');
     }
 
-    public function testCreateCompany()
+    public function testSuperAdminCanCreateCompany()
     {
-      $user = User::where('name', '=', 'Terry Ferreira')->get()->first();
+      $user = User::where('name', '=', 'Super Admin User')->get()->first();
 
       $this->actingAs($user)
            ->visit('/admin/companies')
@@ -54,9 +54,9 @@ class CompanyTest extends TestCase
            ->seeInDatabase('companies', ['name' => 'Random Name', 'telephone' => '018 1234 567', 'fax' => '018 9876 543', 'vat' => '12345678', 'street_number' => '123', 'city' => 'Potchefstroom', 'postal_code' => '2531', 'country' => 'South Africa']);
     }
 
-    public function testEditCompany()
+    public function testSuperAdminCanEditCompany()
     {
-      $user = User::where('name', '=', 'Terry Ferreira')->get()->first();
+      $user = User::where('name', '=', 'Super Admin User')->get()->first();
 
       $this->actingAs($user)
            ->visit('/admin/companies')
