@@ -17,6 +17,18 @@
     <div class="col-md-3">
       <div class="box box-primary">
         <div class="box-header with-border">
+          <h3 class="box-title">Items Management</h3>
+        </div>
+        <div class="box-body">
+          <a href="/admin/items" class="btn btn-app">
+            <i class="fa fa-tags"></i> Items
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="box box-primary">
+        <div class="box-header with-border">
           <h3 class="box-title">Companies Management</h3>
         </div>
         <div class="box-body">

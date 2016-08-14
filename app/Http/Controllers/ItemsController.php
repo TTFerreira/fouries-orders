@@ -34,7 +34,7 @@ class ItemsController extends Controller
     Session::flash('title', 'Item: ' . $request->item_code . ' - ' . $request->description);
     Session::flash('message', 'Successfully created');
 
-    return redirect('admin/items');
+    return redirect()->route('admin.items.index');
   }
 
   public function edit(Item $item)
@@ -52,6 +52,6 @@ class ItemsController extends Controller
     Session::flash('title', 'Item: ' . $request->item_code . ' - ' . $request->description);
     Session::flash('message', 'Successfully updated');
 
-    return redirect('/admin/items');
+    return redirect()->route('admin.items.index');
   }
 }

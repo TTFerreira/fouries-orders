@@ -50,7 +50,7 @@ class UsersController extends Controller
     Session::flash('title', 'User: ' . $request->name);
     Session::flash('message', 'Successfully created');
 
-    return redirect('admin/users');
+    return redirect()->route('admin.users.index');
   }
 
   public function edit(User $user)
@@ -120,6 +120,6 @@ class UsersController extends Controller
       Session::flash('message', 'Successfully updated');
     }
 
-    return redirect('/admin/users');
+    return redirect()->route('admin.users.index');
   }
 }

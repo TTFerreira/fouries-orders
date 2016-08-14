@@ -43,8 +43,21 @@ class OrdersController extends Controller
   public function create()
   {
     $pageTitle = 'Create Order';
-    $itemCategories = ItemCategory::all();
-    $items = Item::all();
+    $categories = DB::table('item_categories')
+                         ->join('items', function ($join) {
+                           $join->on('item_categories.id', '=', 'items.item_category_id')
+                                ->where('items.status', '=', 1);
+                         })
+                         ->pluck('item_categories.id');
+    $array = array();
+    foreach ($categories as $itemCategory) {
+      $array[] = $itemCategory;
+    }
+    $categoriesArray = array_unique($array);
+    $itemCategories = DB::table('item_categories')
+                              ->whereIn('id', $categoriesArray)
+                              ->get();
+    $items = Item::where('status', 1)->get();
     return view('orders.create', compact('pageTitle', 'itemCategories', 'items'));
   }
 
@@ -91,7 +104,7 @@ class OrdersController extends Controller
     Session::flash('title', 'Order: ' . $order->id . ' for ' . $user->company->name);
     Session::flash('message', 'Successfully created');
 
-    return redirect('orders');
+    return redirect()->route('orders.index');
   }
 
   public function show(Order $order)
@@ -141,6 +154,6 @@ class OrdersController extends Controller
     Session::flash('title', 'Order: ' . $order->id . ' for ' . $user->company->name);
     Session::flash('message', 'Status changed to: ' . $orderupdate->status->status);
 
-    return redirect('orders');
+    return redirect()->route('orders.index');
   }
 }

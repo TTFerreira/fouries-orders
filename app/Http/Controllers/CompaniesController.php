@@ -32,7 +32,7 @@ class CompaniesController extends Controller
     Session::flash('title', 'Company: ' . $request->name);
     Session::flash('message', 'Successfully created');
 
-    return redirect('admin/companies');
+    return redirect()->route('admin.companies.index');
   }
 
   public function edit(Company $company)
@@ -49,6 +49,6 @@ class CompaniesController extends Controller
     Session::flash('title', 'Company: ' . $request->name);
     Session::flash('message', 'Successfully updated');
 
-    return redirect('/admin/companies');
+    return redirect()->route('admin.companies.index');
   }
 }

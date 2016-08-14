@@ -13,6 +13,8 @@
               <tr>
                 <th>Code</th>
                 <th>Description</th>
+                <th>Category</th>
+                <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -22,6 +24,8 @@
                   <div>
                     <td>{{$item->item_code}}</td>
                     <td>{{$item->description}}</td>
+                    <td>{{$item->itemCategory->category}}</td>
+                    <td>{{$item->status}}</td>
                     <td><a href="/admin/items/{{ $item->id }}/edit" class="btn btn-primary"><span class='fa fa-edit' aria-hidden='true'></span> <b>Edit</b></a></td>
                   </div>
                 </tr>
@@ -45,7 +49,7 @@
               {{ hasErrorForField($errors, 'item_code') }}
             </div>
             <div class="form-group {{ hasErrorForClass($errors, 'item_category_id') }}">
-              <label for="item_category_id">Company</label>
+              <label for="item_category_id">Category</label>
               <select class="form-control company_id" name="item_category_id">
                 <option value = ""></option>
                 @foreach($categories as $category)
@@ -72,7 +76,7 @@
     $(document).ready(function() {
       $('#table').DataTable( {
         columnDefs: [ {
-          orderable: false, targets: 2
+          orderable: false, targets: 4
         } ],
         order: [[ 0, "asc" ]]
       } );

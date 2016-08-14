@@ -17,6 +17,7 @@ class CreateItemsTable extends Migration
             $table->integer('item_category_id')->unsigned();
             $table->string('item_code')->unique();
             $table->string('description');
+            $table->boolean('status');
             $table->timestamps();
         });
     }
