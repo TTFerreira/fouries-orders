@@ -25,7 +25,13 @@
                     <td>{{$item->item_code}}</td>
                     <td>{{$item->description}}</td>
                     <td>{{$item->itemCategory->category}}</td>
-                    <td>{{$item->status}}</td>
+                    <td>
+                      @if($item->status == 0)
+                        Inactive
+                      @else
+                        Active
+                      @endif
+                    </td>
                     <td><a href="/admin/items/{{ $item->id }}/edit" class="btn btn-primary"><span class='fa fa-edit' aria-hidden='true'></span> <b>Edit</b></a></td>
                   </div>
                 </tr>
@@ -50,7 +56,7 @@
             </div>
             <div class="form-group {{ hasErrorForClass($errors, 'item_category_id') }}">
               <label for="item_category_id">Category</label>
-              <select class="form-control company_id" name="item_category_id">
+              <select class="form-control item_category_id" name="item_category_id">
                 <option value = ""></option>
                 @foreach($categories as $category)
                     <option value="{{$category->id}}">{{$category->category}}</option>

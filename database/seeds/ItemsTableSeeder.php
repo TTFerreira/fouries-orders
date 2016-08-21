@@ -16,7 +16,6 @@ class ItemsTableSeeder extends Seeder
         'item_code' => '123',
         'description' => 'Wings',
         'item_category_id' => 1,
-        'status' => 1,
         'created_at' => $now,
         'updated_at' => $now
       ]);
@@ -26,7 +25,6 @@ class ItemsTableSeeder extends Seeder
         'item_code' => '456',
         'description' => 'Drumsticks',
         'item_category_id' => 2,
-        'status' => 1,
         'created_at' => $now,
         'updated_at' => $now
       ]);
@@ -36,7 +34,6 @@ class ItemsTableSeeder extends Seeder
         'item_code' => '789',
         'description' => 'Breasts',
         'item_category_id' => 3,
-        'status' => 1,
         'created_at' => $now,
         'updated_at' => $now
       ]);
