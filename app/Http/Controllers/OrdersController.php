@@ -13,6 +13,7 @@ use App\ItemCategory;
 use App\Status;
 use Auth;
 use DB;
+use Mail;
 
 use App\Http\Requests;
 
@@ -98,6 +99,18 @@ class OrdersController extends Controller
     // Update the order with the order update id
     $order->orderupdate_id = $orderupdate->id;
     $order->update();
+
+    // Send email to admin
+    Mail::send('emails.new-order-admin', ['order' => $order], function ($m) use ($order) {
+      $m->to(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
+        ->subject('New Order: #' . $order->id . ' - ' . $order->user->company->name);
+    });
+
+    // Send email to customer
+    Mail::send('emails.new-order-customer', ['order' => $order, 'user' => $user], function ($m) use ($order, $user) {
+      $m->to($user->email, $user->name)
+        ->subject('New Order: #' . $order->id . ' has been sent.');
+    });
 
     // toastr notification
     Session::flash('status', 'success');
