@@ -35,6 +35,7 @@
           </form>
         </div>
       </div>
+      <div class="text-center"><a class="btn btn-primary" href="{{ URL::previous() }}"><b>Back</b></a></div>
     </div>
   </div>
   @if(Session::has('status'))

@@ -14,6 +14,7 @@ use App\Status;
 use Auth;
 use DB;
 use Mail;
+use PDF;
 
 use App\Http\Requests;
 
@@ -128,7 +129,10 @@ class OrdersController extends Controller
     if ($user->hasRole(['super-admin', 'admin'])) {
       $orderItems = OrderItem::where('order_id', $order->id)->get();
       $statuses = Status::orderBy('id', 'asc')->get();
-      return view('orders.show', compact('pageTitle', 'order', 'orderItems', 'statuses'));
+      // return view('orders.show', compact('pageTitle', 'order', 'orderItems', 'statuses'));
+
+      $pdf = PDF::loadView('orders.pdf', compact('pageTitle', 'order', 'orderItems', 'statuses'));
+      return $pdf->download('order.pdf');
     } elseif ($user->hasRole('customer')) {
       // Get all users from this user's company
       $users = User::where('company_id', $user->company_id)->pluck('id');

@@ -34,6 +34,22 @@
               </select>
               {{ hasErrorForField($errors, 'item_category_id') }}
             </div>
+            <div class="form-group {{ hasErrorForClass($errors, 'status') }}">
+              <label for="status">Status</label>
+              <select class="form-control status" name="status">
+                <option
+                  @if($item->status == 0)
+                    selected
+                  @endif
+                value="0">Inactive</option>
+                <option
+                  @if($item->status == 1)
+                    selected
+                  @endif
+                value="1">Active</option>
+              </select>
+              {{ hasErrorForField($errors, 'status') }}
+            </div>
 
             <div class="form-group">
               <button type="submit" class="btn btn-primary"><b>Edit Item</b></button>
@@ -41,6 +57,7 @@
           </form>
         </div>
       </div>
+      <div class="text-center"><a class="btn btn-primary" href="{{ URL::previous() }}"><b>Back</b></a></div>
     </div>
   </div>
 @endsection

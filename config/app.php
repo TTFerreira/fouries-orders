@@ -166,6 +166,11 @@ return [
          */
         Zizaco\Entrust\EntrustServiceProvider::class,
 
+        /*
+         * Laravel DOMPDF
+         */
+        Barryvdh\DomPDF\ServiceProvider::class
+
     ],
 
     /*
@@ -221,6 +226,11 @@ return [
          * Entrust ACL
          */
         'Entrust'  => Zizaco\Entrust\EntrustFacade::class,
+
+        /*
+         * Laravel DOMPDF
+         */
+        'PDF' => Barryvdh\DomPDF\Facade::class
 
     ],
 

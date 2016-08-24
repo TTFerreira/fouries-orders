@@ -27,9 +27,9 @@
                     <td>{{$item->itemCategory->category}}</td>
                     <td>
                       @if($item->status == 0)
-                        Inactive
+                        <span class="label label-danger">Inactive</span>
                       @else
-                        Active
+                        <span class="label label-success">Active</span>
                       @endif
                     </td>
                     <td><a href="/admin/items/{{ $item->id }}/edit" class="btn btn-primary"><span class='fa fa-edit' aria-hidden='true'></span> <b>Edit</b></a></td>

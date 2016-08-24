@@ -94,5 +94,6 @@
       <div class="clearfix"></div>
       </div>
     </div>
+    <div class="text-center"><a class="btn btn-primary" href="{{ URL::previous() }}"><b>Back</b></a></div>
   </div>
 @endsection
