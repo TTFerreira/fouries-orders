@@ -129,10 +129,7 @@ class OrdersController extends Controller
     if ($user->hasRole(['super-admin', 'admin'])) {
       $orderItems = OrderItem::where('order_id', $order->id)->get();
       $statuses = Status::orderBy('id', 'asc')->get();
-      // return view('orders.show', compact('pageTitle', 'order', 'orderItems', 'statuses'));
-
-      $pdf = PDF::loadView('orders.pdf', compact('pageTitle', 'order', 'orderItems', 'statuses'));
-      return $pdf->download('order.pdf');
+      return view('orders.show', compact('pageTitle', 'order', 'orderItems', 'statuses'));
     } elseif ($user->hasRole('customer')) {
       // Get all users from this user's company
       $users = User::where('company_id', $user->company_id)->pluck('id');
@@ -149,7 +146,36 @@ class OrdersController extends Controller
       // Throw a 403 ErrorException if it reaches this, as the user does not belong to the company of this order
       abort(403);
     }
+  }
 
+  public function pdf(Order $order)
+  {
+    $pageTitle = 'Order: ' . $order->id;
+    // Get Authenticated User
+    $user = Auth::user();
+    if ($user->hasRole(['super-admin', 'admin'])) {
+      $orderItems = OrderItem::where('order_id', $order->id)->get();
+      $statuses = Status::orderBy('id', 'asc')->get();
+
+      $pdf = PDF::loadView('orders.pdf', compact('pageTitle', 'order', 'orderItems', 'statuses'));
+      return $pdf->download('order.pdf');
+    } elseif ($user->hasRole('customer')) {
+      // Get all users from this user's company
+      $users = User::where('company_id', $user->company_id)->pluck('id');
+      // Get all orders from this user's company
+      $orders = Order::whereIn('user_id', $users)->pluck('id');
+      // Check if authenticated user belongs to this order's company
+      foreach ($orders as $thisOrder) {
+        if ($thisOrder == $order->id) {
+          $orderItems = OrderItem::where('order_id', $order->id)->get();
+          $statuses = Status::orderBy('id', 'asc')->get();
+          $pdf = PDF::loadView('orders.pdf', compact('pageTitle', 'order', 'orderItems', 'statuses'));
+          return $pdf->download('order.pdf');
+        }
+      }
+      // Throw a 403 ErrorException if it reaches this, as the user does not belong to the company of this order
+      abort(403);
+    }
   }
 
   public function update(Request $request, Order $order)

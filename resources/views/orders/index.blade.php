@@ -24,11 +24,24 @@
               @foreach($orders as $order)
                 <tr>
                   <td>{{$order->id}}</td>
-                  <td>{{$order->user->company->name}}</td>
-                  <td>{{$order->orderupdate->status->status}}</td>
+                  <td>
+                    <div id="company{{$order->id}}" class="hover-pointer">
+                      {{$order->user->company->name}}
+                    </div>
+                  </td>
+                  <td>
+                    <div id="status{{$order->id}}" class="hover-pointer">
+                      {{$order->orderupdate->status->status}}
+                    </div>
+                  </td>
                   <td>{{$order->orderupdate->user->name}} - {{$order->orderupdate->user->company->name}}</td>
                   <td>{{$order->orderupdate->updated_at}}</td>
-                  <td><a href="/orders/{{ $order->id }}" class="btn btn-primary"><span class='fa fa-file-text' aria-hidden='true'></span> <b>View Order</b></a></td>
+                  <td>
+                    <div class="btn-group">
+                      <a href="/orders/{{ $order->id }}" class="btn btn-primary"><span class='fa fa-file-text-o' aria-hidden='true'></span> <b>View Order</b></a>
+                      <a href="/orders/{{ $order->id }}/pdf" class="btn btn-primary"><span class='fa fa-file-pdf-o' aria-hidden='true'></span> <b>PDF</b></a>
+                    </div>
+                  </td>
                 </tr>
               @endforeach
             </tbody>
@@ -38,14 +51,32 @@
     </div>
   </div>
   <script>
-    $(document).ready(function() {
-      $('#table').DataTable( {
-        columnDefs: [ {
-          orderable: false, targets: 5
-        } ],
-        order: [[ 0, "desc" ]]
-      } );
+  $(document).ready(function() {
+    var table = $('#table').DataTable( {
+      responsive: true,
+      columnDefs: [ {
+        orderable: false, targets: 5
+      } ],
+      order: [[ 0, "desc" ]]
     } );
+    @foreach($orders as $order)
+      var company = (function() {
+        var x = '#company' + {{$order->id}};
+        return x;
+      });
+      $(company()).click(function () {
+        table.search( "{{$order->user->company->name}}" ).draw();
+      });
+
+      var status = (function() {
+        var x = '#status' + {{$order->id}};
+        return x;
+      });
+      $(status()).click(function () {
+        table.search( "{{$order->orderupdate->status->status}}" ).draw();
+      });
+    @endforeach
+  } );
   </script>
   @if(Session::has('status'))
     <script>
