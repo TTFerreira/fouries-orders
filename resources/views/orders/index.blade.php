@@ -31,7 +31,16 @@
                   </td>
                   <td>
                     <div id="status{{$order->id}}" class="hover-pointer">
-                      {{$order->orderupdate->status->status}}
+                      @if($order->orderupdate->status->id == 1)
+                        <span class="label label-success">
+                      @elseif($order->orderupdate->status->id == 3)
+                        <span class="label label-info">
+                      @elseif($order->orderupdate->status->id == 2)
+                        <span class="label label-warning">
+                      @elseif($order->orderupdate->status->id == 4)
+                        <span class="label label-danger">
+                      @endif
+                      {{$order->orderupdate->status->status}}</span>
                     </div>
                   </td>
                   <td>{{$order->orderupdate->user->name}} - {{$order->orderupdate->user->company->name}}</td>
