@@ -12,6 +12,7 @@ class ItemsTableSeeder extends Seeder
     public function run()
     {
       $now = new Carbon();
+      
       DB::table('items')->insert([
         'item_code' => '123',
         'description' => 'Wings',

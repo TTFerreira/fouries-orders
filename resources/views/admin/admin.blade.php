@@ -23,6 +23,9 @@
           <a href="/admin/items" class="btn btn-app">
             <i class="fa fa-tags"></i> Items
           </a>
+          <a href="/admin/categories" class="btn btn-app">
+            <i class="fa fa-folder"></i> Categories
+          </a>
         </div>
       </div>
     </div>

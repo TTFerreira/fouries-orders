@@ -25,6 +25,12 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin']], function () {
     'only' => ['index', 'edit', 'update', 'store'],
     'parameters' => 'singular'
   ]);
+
+  // ItemCategories
+  Route::resource('/admin/categories', 'ItemCategoriesController', [
+    'only' => ['index', 'edit', 'update', 'store'],
+    'parameters' => 'singular'
+  ]);
 });
 
 Route::group(['middleware' => ['auth', 'role:admin|super-admin|customer']], function () {
