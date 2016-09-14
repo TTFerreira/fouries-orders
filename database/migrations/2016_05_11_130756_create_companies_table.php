@@ -16,8 +16,8 @@ class CreateCompaniesTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('telephone');
-            $table->string('fax');
-            $table->string('vat');
+            $table->string('fax')->nullable();
+            $table->string('vat')->nullable();
             $table->string('street_number');
             $table->string('street_name');
             $table->string('city');

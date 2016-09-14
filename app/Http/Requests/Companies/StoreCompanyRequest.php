@@ -26,8 +26,6 @@ class StoreCompanyRequest extends Request
       return [
         'name' => 'required|unique:companies,name',
         'telephone' => 'required',
-        'fax' => 'required',
-        'vat' => 'required',
         'street_number' => 'required',
         'street_name' => 'required',
         'city' => 'required',
@@ -47,8 +45,6 @@ class StoreCompanyRequest extends Request
         'name.required' => 'You must enter the Company Name.',
         'name.unique' => $this->name . ' already exists. You must enter a unique Company Name',
         'telephone.required' => 'You must enter the telephone number.',
-        'fax.required' => 'You must enter the fax number.',
-        'vat.required' => 'You must enter the VAT number.',
         'street_number.required' => 'You must enter the street number.',
         'street_name.required' => 'You must enter the street name.',
         'city.required' => 'You must enter the city.',

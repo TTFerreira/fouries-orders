@@ -32,6 +32,7 @@
               <address>
                 <br><br>VAT Number: {{$order->user->company->vat}}<br>
                 Phone: {{$order->user->company->telephone}}<br>
+                Fax: {{$order->user->company->fax}}<br>
                 Email: {{$order->user->email}}
               </address>
             </div>

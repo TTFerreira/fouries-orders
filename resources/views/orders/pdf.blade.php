@@ -43,6 +43,7 @@
               <strong>Address: </strong>{{$order->user->company->street_number}} {{$order->user->company->street_name}}, {{$order->user->company->city}}, {{$order->user->company->postal_code}}, {{$order->user->company->country}}<br>
               <strong>VAT Number: </strong>{{$order->user->company->vat}}<br>
               <strong>Phone: </strong>{{$order->user->company->telephone}}<br>
+              <strong>Fax: </strong>{{$order->user->company->fax}}<br>
               <strong>Email: </strong>{{$order->user->email}}
             </address>
         </div>

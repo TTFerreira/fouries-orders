@@ -87,8 +87,6 @@
               {{ hasErrorForField($errors, 'country') }}
             </div>
 
-            **NOT DONE YET**
-
             <div class="form-group">
               <button type="submit" class="btn btn-primary"><b>Add New Company</b></button>
             </div>
