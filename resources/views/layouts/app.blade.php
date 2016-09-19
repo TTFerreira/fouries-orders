@@ -5,12 +5,11 @@
     @include('layouts.partials.htmlheader')
 @show
 
-<body class="skin-blue sidebar-mini">
+<body class="skin-blue layout-top-nav">
 <div class="wrapper">
 
     @include('layouts.partials.mainheader')
 
-    @include('layouts.partials.sidebar')
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">

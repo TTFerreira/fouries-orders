@@ -42,4 +42,4 @@ Route::group(['middleware' => ['auth', 'role:admin|super-admin|customer']], func
   ]);
 });
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'OrdersController@index');

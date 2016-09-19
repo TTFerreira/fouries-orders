@@ -1,21 +1,18 @@
 <!-- Main Header -->
 <header class="main-header">
-
-    <!-- Logo -->
-    <a href="{{ url('/home') }}" class="logo">
-        <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>F</b>O</span>
-        <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Fouries</b>Orders </span>
-    </a>
-
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation">
-        <!-- Sidebar toggle button-->
-        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
-        </a>
-        <!-- Navbar Right Menu -->
+      <!-- Logo -->
+      <a href="{{ url('/') }}" class="navbar-brand">
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg"><b>Fouries</b>Orders </span>
+      </a>
+      <ul class="nav navbar-nav">
+          <li><a href="{{ url('orders') }}"><i class='fa fa-shopping-cart'></i> <span>Orders</span></a></li>
+          @role(['super-admin', 'admin'])
+            <li><a href="{{ url('/admin')}}"><i class='fa fa-gear'></i> <span>Administrator</span></a></li>
+          @endrole
+      </ul>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <!-- Messages: style can be found in dropdown.less-->

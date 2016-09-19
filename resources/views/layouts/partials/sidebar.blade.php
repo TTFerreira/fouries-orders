@@ -8,7 +8,6 @@
         <ul class="sidebar-menu">
             <li class="header">Navigation</li>
             <!-- Optionally, you can add icons to the links -->
-            <li><a href="{{ url('home') }}"><i class='fa fa-home'></i> <span>Home</span></a></li>
             <li><a href="{{ url('orders') }}"><i class='fa fa-shopping-cart'></i> <span>Orders</span></a></li>
             @role(['super-admin', 'admin'])
               <li><a href="{{ url('/admin')}}"><i class='fa fa-gear'></i> <span>Administrator</span></a></li>
