@@ -2,7 +2,7 @@
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
-class ItemsTableSeeder extends Seeder
+class TestItemsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,7 +12,7 @@ class ItemsTableSeeder extends Seeder
     public function run()
     {
       $now = new Carbon();
-      
+
       DB::table('items')->insert([
         'item_code' => '123',
         'description' => 'Wings',
