@@ -15,7 +15,7 @@
       <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
         <ul class="nav navbar-nav">
             <li><a href="{{ url('orders') }}"><i class='fa fa-shopping-cart'></i> <span>Orders</span></a></li>
-            @role(['super-admin', 'admin'])
+            @role(['super-admin'])
               <li><a href="{{ url('/admin')}}"><i class='fa fa-gear'></i> <span>Administrator</span></a></li>
             @endrole
         </ul>

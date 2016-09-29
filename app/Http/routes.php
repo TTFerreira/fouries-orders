@@ -2,7 +2,7 @@
 
 Route::auth();
 
-Route::group(['middleware' => ['auth', 'role:super-admin|admin']], function () {
+Route::group(['middleware' => ['auth', 'role:super-admin']], function () {
   // Admin Page
   route::resource('/admin', 'AdminController', [
     'only' => ['index']

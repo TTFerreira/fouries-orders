@@ -64,32 +64,35 @@
             </div>
           </div>
         <!-- this row will not appear when printing -->
-        <div class="row no-print">
-          <hr>
-          <div class="col-xs-2">
-            <form method="POST" action="/orders/{{$order->id}}">
-              {{method_field('PATCH')}}
-              {{csrf_field()}}
-              <div class="form-group {{ hasErrorForClass($errors, 'status') }}">
-                <label for="status">Update Order Status</label>
-                <select class="form-control status" name="status">
-                  @foreach($statuses as $status)
-                    <option
-                      @if($order->orderupdate->status->id == $status->id)
-                        selected
-                      @endif
-                    value="{{$status->id}}">{{$status->status}}</option>
-                  @endforeach
-                </select>
-                {{ hasErrorForField($errors, 'status') }}
-              </div>
+        @role(['super-admin', 'admin'])
+          <div class="row no-print">
+            <hr>
+            <div class="col-xs-2">
+              <a href="/orders/{{ $order->id }}/pdf" class="btn btn-primary"><span class='fa fa-file-pdf-o' aria-hidden='true'></span> <b>PDF</b></a><br><br>
+              <form method="POST" action="/orders/{{$order->id}}">
+                {{method_field('PATCH')}}
+                {{csrf_field()}}
+                <div class="form-group {{ hasErrorForClass($errors, 'status') }}">
+                  <label for="status">Update Order Status</label>
+                  <select class="form-control status" name="status">
+                    @foreach($statuses as $status)
+                      <option
+                        @if($order->orderupdate->status->id == $status->id)
+                          selected
+                        @endif
+                      value="{{$status->id}}">{{$status->status}}</option>
+                    @endforeach
+                  </select>
+                  {{ hasErrorForField($errors, 'status') }}
+                </div>
 
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary"><span class='fa fa-pencil-square-o' aria-hidden='true'></span> <b>Update Status</b></button>
-              </div>
-            </form>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary"><span class='fa fa-pencil-square-o' aria-hidden='true'></span> <b>Update Status</b></button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
+        @endrole
       </section>
       <!-- /.content -->
       <div class="clearfix"></div>
