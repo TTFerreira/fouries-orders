@@ -132,27 +132,4 @@ class OrderTest extends TestCase
          ->see($otherCompanyOrderItem->quantity)
          ->see($otherCompanyOrderItem->item->description);
   }
-
-  public function testCustomerCanUpdateOrderStatus()
-  {
-    $user = User::where('name', 'Customer User')->first();
-    $companyUsers = User::where('company_id', $user->company_id)->pluck('id');
-    $companyOrder = Order::whereIn('user_id', $companyUsers)->first();
-    $orderItem = OrderItem::where('order_id', $companyOrder->id)->first();
-
-    $this->actingAs($user)
-         ->visit('/orders/' . $companyOrder->id)
-         ->seePageIs('/orders/' . $companyOrder->id)
-         ->see($orderItem->item->item_code)
-         ->see($orderItem->quantity)
-         ->see($orderItem->item->description)
-         ->select(3, 'status')
-         ->press('Update Status');
-
-    $updatedCompanyOrder = Order::where('id', $companyOrder->id)->first();
-
-    $this->actingAs($user)
-         ->see('Order: ' . $companyOrder->id . ' for ' . $companyOrder->user->company->name)
-         ->see('Status changed to: ' . $updatedCompanyOrder->orderupdate->status->status);
-  }
 }
