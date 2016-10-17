@@ -22,7 +22,7 @@
               {{ hasErrorForField($errors, 'description') }}
             </div>
             <div class="form-group {{ hasErrorForClass($errors, 'item_category_id') }}">
-              <label for="item_category_id">Company</label>
+              <label for="item_category_id">Category</label>
               <select class="form-control item_category_id" name="item_category_id">
                 @foreach($categories as $category)
                   <option
