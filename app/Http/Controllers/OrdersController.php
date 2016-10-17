@@ -79,12 +79,13 @@ class OrdersController extends Controller
 
       // Check if field was filled in. Skip item if field was left blank
       // If not blank, save it as a new order item for this order
-      if (isset($request->$description)) {
+      if ($request->$description > 0) {
         $orderItem = new OrderItem();
         $orderItem->order_id = $order->id;
         $orderItem->item_id = $item->id;
         $orderItem->quantity = $request->$description;
         $orderItem->save();
+        dd($orderItem);
       }
     }
 
