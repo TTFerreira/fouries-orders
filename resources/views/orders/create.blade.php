@@ -16,10 +16,10 @@
                 @foreach($items as $item)
                   @if($item->item_category_id == $itemCategory->id)
                     <div class="col-md-2">
-                      <div class="form-group {{ hasErrorForClass($errors, $item->description) }}">
-                        <label for="{{$item->description}}">{{$item->item_code}}: {{$item->description}}</label>
-                        <input type="number" name="{{$item->description}}" class="form-control" value="{{old($item->description)}}">
-                        {{ hasErrorForField($errors, $item->description) }}
+                      <div class="form-group {{ hasErrorForClass($errors, $item->id) }}">
+                        <label for="{{$item->id}}">{{$item->item_code}}: {{$item->description}}</label>
+                        <input type="number" name="{{$item->id}}" class="form-control" value="{{old($item->id)}}">
+                        {{ hasErrorForField($errors, $item->id) }}
                       </div>
                     </div>
                   @endif

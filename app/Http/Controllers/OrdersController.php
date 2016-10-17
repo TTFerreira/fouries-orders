@@ -75,17 +75,16 @@ class OrdersController extends Controller
 
     $items = Item::all();
     foreach ($items as $item) {
-      $description = $item->description;
+      $id = $item->id;
 
       // Check if field was filled in. Skip item if field was left blank
       // If not blank, save it as a new order item for this order
-      if ($request->$description > 0) {
+      if ($request->$id > 0) {
         $orderItem = new OrderItem();
         $orderItem->order_id = $order->id;
         $orderItem->item_id = $item->id;
-        $orderItem->quantity = $request->$description;
+        $orderItem->quantity = $request->$id;
         $orderItem->save();
-        dd($orderItem);
       }
     }
 
